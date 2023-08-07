@@ -2,6 +2,7 @@ package com.mindhub.homebanking.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -17,6 +18,8 @@ public class Account {
     private Double balance;
     @ManyToOne(fetch = FetchType.EAGER)
     private Client client;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transaction")
+    private Transaction transaction;
 
     public Account(String number, LocalDateTime creationDate, Double balance) {
         this.number = number;
