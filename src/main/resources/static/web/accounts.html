@@ -19,7 +19,12 @@
   </head>
 
   <body>
-    <div id="app">
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+    <div id="app" v-cloak>
       <div
         class="toast-container position-absolute p-3 top-0 end-0"
         id="toastPlacement"

@@ -1,11 +1,12 @@
 package com.mindhub.homebanking.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import net.bytebuddy.asm.Advice;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+
 
 @Entity
 public class Transaction {
@@ -13,35 +14,44 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
-    private String Type;
-    private Long amount;
+    private TransactionType type;
+    private Double amount;
     private String description;
     private LocalDateTime date;
     @ManyToOne(fetch = FetchType.EAGER)
     private Account account;
 
-    public Transaction(){}
 
-    public Transaction(String type, Long amount, String description, LocalDateTime date) {
-        Type = type;
+    public Transaction(TransactionType type, Double amount, String description) {
+        this.type = type;
         this.amount = amount;
         this.description = description;
-        this.date = date;
+        //this.date = date ;
+        this.date = LocalDateTime.now();
+    }
+    public Transaction() {}
+
+    public Long getId() {
+        return id;
     }
 
-    public String getType() {
-        return Type;
+    public Account getAccount(){
+        return account;
     }
 
-    public void setType(String type) {
-        Type = type;
+    public TransactionType getType() {
+        return type;
     }
 
-    public Long getAmount() {
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
+
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -57,8 +67,13 @@ public class Transaction {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    //public void setDate(LocalDateTime date) {
+    //this.date = date;
+    //}
+
+    public void setAccount(Account account){
+        this.account = account;
     }
+
 }
 
