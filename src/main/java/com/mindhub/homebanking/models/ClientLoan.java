@@ -23,14 +23,18 @@ public class ClientLoan {
 
     public ClientLoan(){}
 
-    public ClientLoan(Loan loan,Double amount, Integer payments){
-        if (amount<= loan.getMaxAmount() && (loan.getPayments().contains(payments))) {
+    public ClientLoan(Double amount, Integer payments){
+//        if (amount<= loan.getMaxAmount() && (loan.getPayments().contains(payments))) {
             this.amount = amount;
             this.payments = payments;
-            this.loan = loan;
-        } else {
-            System.out.println("Error setting loan");
-        }
+//            this.loan = loan;
+//        } else {
+//            System.out.println("Error setting loan");
+//        }
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Double getAmount() {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ public class Loan {
     @ElementCollection
     private List<Integer> payments;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "loan")
-    private List<ClientLoan> clientLoans;
+    private List<ClientLoan> clientLoans = new ArrayList<>();
 
     public Loan(String name, Double maxAmount, List<Integer> payments) {
         this.name = name;
@@ -26,6 +27,14 @@ public class Loan {
         this.payments = payments;
     }
     public Loan(){}
+
+    public Long getId() {
+        return id;
+    }
+
+    public List<ClientLoan> getClientLoans() {
+        return clientLoans;
+    }
 
     public String getName() {
         return name;
@@ -50,8 +59,14 @@ public class Loan {
     public void setPayments(List<Integer> payments) {
         this.payments = payments;
     }
-    @JsonIgnore
+
+
     public List<Client> getClients(){
-        return clientLoans.stream().map(sub -> sub.getClient()).collect(Collectors.toList());
+        return clientLoans.stream().map(loan -> loan.getClient()).collect(Collectors.toList());
+    }
+
+    public void addLoan(ClientLoan clientLoan){
+        clientLoan.setLoan(this);
+        clientLoans.add(clientLoan);
     }
 }
