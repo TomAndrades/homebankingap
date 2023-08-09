@@ -1,12 +1,8 @@
 package com.mindhub.homebanking;
 
-import com.mindhub.homebanking.models.Account;
-import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.models.Transaction;
-import com.mindhub.homebanking.models.TransactionType;
-import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
-import com.mindhub.homebanking.repositories.TransactionRepository;
+import com.mindhub.homebanking.models.*;
+import com.mindhub.homebanking.models.ClientLoan;
+import com.mindhub.homebanking.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @SpringBootApplication
@@ -25,7 +22,9 @@ public class HomebankingApplication {
 
 
 	@Bean
-	public CommandLineRunner init(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository){
+	public CommandLineRunner init(ClientRepository clientRepository, AccountRepository accountRepository,
+								  TransactionRepository transactionRepository, LoanRepository loanRepository,
+								  ClientLoanRepository clientLoanRepository){
 		return args -> {
 			//Crear el cliente
 			Client client = new Client("Melba", "Morel", "melba@mindhub.com");
@@ -64,11 +63,11 @@ public class HomebankingApplication {
 			account3.addTransaction(transaction10);
 			account3.addTransaction(transaction11);
 
-
 			//Agregar las cuentas al cliente
 			client.addAccount(account1);
 			client.addAccount(account2);
 			client2.addAccount(account3);
+
 			//Guardar la cuenta
 			accountRepository.save(account1);
 			accountRepository.save(account2);
@@ -85,6 +84,32 @@ public class HomebankingApplication {
 			transactionRepository.save(transaction9);
 			transactionRepository.save(transaction10);
 			transactionRepository.save(transaction11);
+
+			Loan mortgage = new Loan("Mortgage", 500000.0, List.of(12,24,36,48,60));
+			Loan personal = new Loan("Personal", 100000.0, List.of(6,12,24));
+			Loan automotive = new Loan("Automotive", 500000.0, List.of(6,12,24,36));
+
+			loanRepository.save(mortgage);
+			loanRepository.save(personal);
+			loanRepository.save(automotive);
+
+			ClientLoan clientLoan1 = new ClientLoan(mortgage, 400000.0,60);
+			ClientLoan clientLoan2 = new ClientLoan(personal, 50000.0,12);
+			ClientLoan clientLoan3 = new ClientLoan(personal, 100000.0,24);
+			ClientLoan clientLoan4 = new ClientLoan(automotive, 200000.0,36);
+
+			client.addNewLoan(clientLoan1);
+			client.addNewLoan(clientLoan2);
+			client2.addNewLoan(clientLoan3);
+			client2.addNewLoan(clientLoan4);
+			clientLoanRepository.save(clientLoan1);
+			clientLoanRepository.save(clientLoan2);
+			clientLoanRepository.save(clientLoan3);
+			clientLoanRepository.save(clientLoan4);
+
+
+
+
 
 		};
 	}
