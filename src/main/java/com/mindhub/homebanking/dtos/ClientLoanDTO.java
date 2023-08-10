@@ -36,7 +36,7 @@ public class ClientLoanDTO {
         return amount;
     }
 
-    public Integer getPayment() {
+    public Integer getPayments() {
         return payments;
     }
 }

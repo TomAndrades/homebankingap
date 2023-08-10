@@ -1,4 +1,6 @@
-Vue.createApp({
+const { createApp } = Vue;
+
+createApp({
     data() {
         return {
             clientInfo: {},
@@ -10,7 +12,6 @@ Vue.createApp({
         getData() {
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
-            console.log(id);
             axios.get(`/api/clients/${id}`)
                 .then((response) => {
                     //get client ifo
@@ -23,8 +24,8 @@ Vue.createApp({
                 })
         },
         formatDate(date) {
-            return new Date(date).toLocaleDateString('en-us');
-        },
+            return new Date(date).toLocaleDateString('en-gb');
+        }
     },
     mounted() {
         this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
