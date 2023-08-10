@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toSet;
+
 @Entity
 public class Client {
     @Id
@@ -22,7 +24,7 @@ public class Client {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "client")
     private Set<Account> accounts = new HashSet<>();
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "client")
-    private List<ClientLoan> clientLoans = new ArrayList<>();
+    private Set<ClientLoan> clientLoans = new HashSet<>();
 
     public Client(){}
     public Client(String first, String last, String email) {
@@ -63,18 +65,24 @@ public class Client {
         return accounts;
     }
 
+    public Set<ClientLoan> getClientLoans() {
+        return clientLoans;
+    }
+
     public void addAccount(Account account){
         this.accounts.add(account);
         account.setClient(this);
     }
 
-    public void addLoan(ClientLoan clientLoan) {
+    public void addClientLoan(ClientLoan clientLoan) {
         clientLoan.setClient(this);
         clientLoans.add(clientLoan);
     }
-    public List<ClientLoan> getLoans(){
-        return clientLoans;
+    public Set<Loan> getLoans(){
+        return clientLoans.stream().map(clientLoan -> clientLoan.getLoan()).collect(toSet());
     }
+
+
     @Override
     public String toString() {
         return "Client{" +

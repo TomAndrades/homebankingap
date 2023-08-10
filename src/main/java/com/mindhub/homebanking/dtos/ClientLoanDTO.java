@@ -9,15 +9,14 @@ public class ClientLoanDTO {
     private Long loanId;
     private String name;
     private Double amount;
-    private Integer payment;
+    private Integer payments;
 
     public ClientLoanDTO (ClientLoan clientLoan){
-        Loan loan = clientLoan.getLoan();
         this.id = clientLoan.getId();
-        this.loanId = loan.getId();
-        this.name = loan.getName();
+        this.loanId = clientLoan.getLoan().getId();
+        this.name = clientLoan.getLoan().getName();
         this.amount = clientLoan.getAmount();
-        this.payment = clientLoan.getPayments();
+        this.payments = clientLoan.getPayments();
 
     }
 
@@ -38,6 +37,6 @@ public class ClientLoanDTO {
     }
 
     public Integer getPayment() {
-        return payment;
+        return payments;
     }
 }
