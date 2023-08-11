@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
+
+
 @SpringBootApplication
 public class HomebankingApplication {
 
@@ -24,12 +26,12 @@ public class HomebankingApplication {
 	@Bean
 	public CommandLineRunner init(ClientRepository clientRepository, AccountRepository accountRepository,
 								  TransactionRepository transactionRepository, LoanRepository loanRepository,
-								  ClientLoanRepository clientLoanRepository){
+								  ClientLoanRepository clientLoanRepository, CardRepository cardRepository){
 		return args -> {
 			//Crear el cliente
-			Client client = new Client("Melba", "Morel", "melba@mindhub.com");
+			Client client1 = new Client("Melba", "Morel", "melba@mindhub.com");
 			Client client2 = new Client("Morgan", "Freeman", "mfreeman@mindhub.com");
-			clientRepository.save(client);
+			clientRepository.save(client1);
 			clientRepository.save(client2);
 
 			//Crear las cuentas
@@ -64,8 +66,8 @@ public class HomebankingApplication {
 			account3.addTransaction(transaction11);
 
 			//Agregar las cuentas al cliente
-			client.addAccount(account1);
-			client.addAccount(account2);
+			client1.addAccount(account1);
+			client1.addAccount(account2);
 			client2.addAccount(account3);
 
 			//Guardar la cuenta
@@ -99,8 +101,8 @@ public class HomebankingApplication {
 			ClientLoan clientLoan4 = new ClientLoan(200000.0,36);
 
 
-			client.addClientLoan(clientLoan1);
-			client.addClientLoan(clientLoan2);
+			client1.addClientLoan(clientLoan1);
+			client1.addClientLoan(clientLoan2);
 			client2.addClientLoan(clientLoan3);
 			client2.addClientLoan(clientLoan4);
 
@@ -113,7 +115,13 @@ public class HomebankingApplication {
 			clientLoanRepository.save(clientLoan2);
 			clientLoanRepository.save(clientLoan3);
 			clientLoanRepository.save(clientLoan4);
+			//Cards
 
+			Card card1 = new Card(CardType.DEBIT, CardColor.GOLD, "1111-2222-3333-4444", LocalDateTime.now(), (short) 999);
+
+			client1.addCard(card1);
+
+			cardRepository.save(card1);
 
 
 
