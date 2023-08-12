@@ -87,6 +87,8 @@ public class HomebankingApplication {
 			transactionRepository.save(transaction10);
 			transactionRepository.save(transaction11);
 
+			// LOANS
+
 			Loan mortgage = new Loan("Mortgage", 500000.0, List.of(12,24,36,48,60));
 			Loan personal = new Loan("Personal", 100000.0, List.of(6,12,24));
 			Loan automotive = new Loan("Automotive", 500000.0, List.of(6,12,24,36));
@@ -94,6 +96,7 @@ public class HomebankingApplication {
 			loanRepository.save(mortgage);
 			loanRepository.save(personal);
 			loanRepository.save(automotive);
+
 
 			ClientLoan clientLoan1 = new ClientLoan(400000.0,60);
 			ClientLoan clientLoan2 = new ClientLoan(50000.0,12);
@@ -115,13 +118,20 @@ public class HomebankingApplication {
 			clientLoanRepository.save(clientLoan2);
 			clientLoanRepository.save(clientLoan3);
 			clientLoanRepository.save(clientLoan4);
-			//Cards
+
+			//CARDS
 
 			Card card1 = new Card(CardType.DEBIT, CardColor.GOLD, "1111-2222-3333-4444", LocalDateTime.now(), (short) 999);
+			Card card2 = new Card(CardType.CREDIT, CardColor.TITANIUM, "1234-1234-1234-1234", LocalDateTime.now(), (short) 321);
+			Card card3 = new Card(CardType.CREDIT, CardColor.SILVER, "4543-1675-8461-9921", LocalDateTime.of(1999,12,1,12,1), (short) 612);
 
 			client1.addCard(card1);
+			client1.addCard(card2);
+			client2.addCard(card3);
 
 			cardRepository.save(card1);
+			cardRepository.save(card2);
+			cardRepository.save(card3);
 
 
 

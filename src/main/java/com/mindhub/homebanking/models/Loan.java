@@ -61,7 +61,7 @@ public class Loan {
     public void setPayments(List<Integer> payments) {
         this.payments = payments;
     }
-
+@JsonIgnore
     public List<Client> getClients(){
         return clientLoans.stream().map(clientLoan -> clientLoan.getClient()).collect(Collectors.toList());
     }
