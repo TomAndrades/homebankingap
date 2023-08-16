@@ -1,9 +1,11 @@
 package com.mindhub.homebanking.configurations;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
@@ -13,19 +15,20 @@ import javax.servlet.http.HttpSession;
 
 @EnableWebSecurity
 @Configuration
-class WebAuthorization extends WebSecurityConfigurerAdapter {
+class WebAuthorization {
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-
+                .antMatchers(HttpMethod.POST, "/api/clients").permitAll()
                 .antMatchers("/rest/**").hasAuthority("ADMIN")
                 .antMatchers("/h2-console/**").hasAuthority("ADMIN")
 
                 .antMatchers("/web/accounts.html**").hasAuthority("CLIENT")
                 .antMatchers("/web/account.html**").hasAuthority("CLIENT")
                 .antMatchers("/api/**").hasAuthority("CLIENT");
+
 
 
         http.formLogin()
@@ -57,6 +60,8 @@ class WebAuthorization extends WebSecurityConfigurerAdapter {
 
         // if logout is successful, just send a success response
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
+
+        return http.build();
 
     }
 
