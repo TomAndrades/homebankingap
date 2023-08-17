@@ -1,11 +1,13 @@
 package com.mindhub.homebanking.controllers;
 
+import com.mindhub.homebanking.configurations.WebAuthentication;
 import com.mindhub.homebanking.dtos.ClientDTO;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +34,10 @@ public class ClientController {
     //Method to get a client by his ID
     @RequestMapping("/clients/{id}")
     public ClientDTO getClient(@PathVariable Long id){
-        return clientRepository.findById(id).map(ClientDTO::new).orElse(null);
+        return clientRepository
+                .findById(id)
+                .map(ClientDTO::new)
+                .orElse(null);
     }
 
     //Method to create a client validating that the email is not in the db
@@ -49,6 +54,12 @@ public class ClientController {
         clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @RequestMapping("/clients/current")
+    public ClientDTO getCurrentClient(Authentication authentication){
+        return new ClientDTO(clientRepository
+                .findByEmail(authentication.getName()));
     }
 
 }
