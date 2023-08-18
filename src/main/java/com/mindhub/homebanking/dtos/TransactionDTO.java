@@ -52,20 +52,4 @@ public class TransactionDTO {
         return date;
     }
 
-    public void setType(TransactionType type) {
-        this.type = type;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
 }
