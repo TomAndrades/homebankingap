@@ -46,11 +46,11 @@ public class ClientLoan {
     public Client getClient() {
         return client;
     }
-    public void setClient(Client client) {
-        this.client = client;
-    }
     public Loan getLoan() {
         return loan;
+    }
+    public void setClient(Client client) {
+        this.client = client;
     }
     public void setLoan(Loan loan) {
         this.loan = loan;
