@@ -41,21 +41,22 @@ public class Account {
     public String getNumber() {
         return number;
     }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
     public LocalDateTime getCreationDate() {
         return creationDate;
     }
-
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
+    public Set<Transaction> getTransactions(){
+        return transactions;
     }
 
     public Double getBalance() {
         return balance;
+    }
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 
     public void setBalance(Double balance) {
@@ -69,8 +70,5 @@ public class Account {
     public void addTransaction(Transaction transaction){
         this.transactions.add(transaction);
         transaction.setAccount(this);
-    }
-    public Set<Transaction> getTransactions(){
-        return transactions;
     }
 }

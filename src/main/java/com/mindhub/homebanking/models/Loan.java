@@ -42,20 +42,20 @@ public class Loan {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Double getMaxAmount() {
         return maxAmount;
     }
 
-    public void setMaxAmount(Double maxAmount) {
-        this.maxAmount = maxAmount;
-    }
-
     public List<Integer> getPayments() {
         return payments;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMaxAmount(Double maxAmount) {
+        this.maxAmount = maxAmount;
     }
 
     public void setPayments(List<Integer> payments) {
