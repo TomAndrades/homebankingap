@@ -22,11 +22,11 @@ public class Transaction {
     private Account account;
 
 
-    public Transaction(TransactionType type, Double amount, String description) {
+    public Transaction(TransactionType type, Double amount, String description)
+    {
         this.type = type;
         this.amount = amount;
         this.description = description;
-        //this.date = date ;
         this.date = LocalDateTime.now();
     }
     public Transaction() {}
@@ -43,33 +43,34 @@ public class Transaction {
         return type;
     }
 
-    public void setType(TransactionType type) {
-        this.type = type;
-    }
 
     public Double getAmount() {
         return amount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setType(TransactionType type) {
+        this.type = type;
     }
 
     public void setAmount(Double amount) {
         this.amount = amount;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public LocalDateTime getDate() {
-        return date;
-    }
 
-    //public void setDate(LocalDateTime date) {
-    //this.date = date;
-    //}
+    public void setDate(LocalDateTime date) {
+    this.date = date;
+    }
 
     public void setAccount(Account account){
         this.account = account;
