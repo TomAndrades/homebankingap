@@ -10,14 +10,14 @@ import static java.util.stream.Collectors.toSet;
 public class AccountDTO {
     private Long id;
     private String number;
-    private LocalDateTime creationDate;
+    private LocalDateTime date;
     private Double balance;
     private Set<TransactionDTO> transactions;
 
     public AccountDTO(Account account) {
         id = account.getId();
         number = account.getNumber();
-        creationDate = account.getCreationDate();
+        date = account.getCreationDate();
         balance = account.getBalance();
         transactions = account.getTransactions().stream().map(TransactionDTO::new).collect(toSet());
     }
@@ -30,8 +30,8 @@ public class AccountDTO {
         return number;
     }
 
-    public LocalDateTime getCreationDate() {
-        return     creationDate;
+    public LocalDateTime getDate() {
+        return date;
     }
 
     public Double getBalance() {

@@ -22,17 +22,15 @@ class WebAuthorization {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/clients").permitAll()
-                .antMatchers("/rest/**").hasAuthority("ADMIN")
-                .antMatchers("/h2-console/**").hasAuthority("ADMIN")
+                .antMatchers("/rest/**", "/h2-console/**").hasAuthority("ADMIN")
+                .antMatchers("/web/accounts.html**","/web/account.html**","/api/**","/web/cards.html**,/api/clients/current/accounts").hasAuthority("CLIENT");
 
-                .antMatchers("/web/accounts.html**").hasAuthority("CLIENT")
-                .antMatchers("/web/account.html**").hasAuthority("CLIENT")
-                .antMatchers("/api/**").hasAuthority("CLIENT");
+
 
 
 
         http.formLogin()
-
+                //POST "/algo/login?email=*****@***.com&password=****"
                 .usernameParameter("email")
 
                 .passwordParameter("password")

@@ -40,9 +40,9 @@ public class HomebankingApplication {
 			clientRepository.save(admin);
 
 			//Crear las cuentas
-			Account account1 = new Account("VIN001", LocalDateTime.now(),5000.0);
-			Account account2 = new Account("VIN002",LocalDateTime.now().plusDays(1),7500.0);
-			Account account3 = new Account("VIN003",LocalDateTime.now().minusDays(30),10.0);
+			Account account1 = new Account("VIN-001", LocalDateTime.now(),5000.0);
+			Account account2 = new Account("VIN-002",LocalDateTime.now().plusDays(1),7500.0);
+			Account account3 = new Account("VIN-003",LocalDateTime.now().minusDays(30),10.0);
 
 			//Crear las transacciones
 			Transaction transaction1 = new Transaction(TransactionType.CREDIT, 1230.0, "Pago de haberes");
