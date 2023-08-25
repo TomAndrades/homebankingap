@@ -14,8 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
-
+import java.util.Random;
+import java.util.stream.IntStream;
 
 
 @SpringBootApplication
@@ -126,9 +126,9 @@ public class HomebankingApplication {
 
 			//CARDS
 
-			Card card1 = new Card(CardType.DEBIT, CardColor.GOLD, "1111-2222-3333-4444", LocalDateTime.now(), (short) 999);
-			Card card2 = new Card(CardType.CREDIT, CardColor.TITANIUM, "1234-1234-1234-1234", LocalDateTime.now(), (short) 321);
-			Card card3 = new Card(CardType.CREDIT, CardColor.SILVER, "4543-1675-8461-9921", LocalDateTime.of(1999,12,1,12,1), (short) 612);
+			Card card1 = new Card(CardType.DEBIT, CardColor.GOLD, "1111-2222-3333-4444", LocalDateTime.now(), "999");
+			Card card2 = new Card(CardType.CREDIT, CardColor.TITANIUM, "1234-1234-1234-1234", LocalDateTime.now(),  "321");
+			Card card3 = new Card(CardType.CREDIT, CardColor.SILVER, "4543-1675-8461-9921", LocalDateTime.of(1999,12,1,12,1), "612");
 
 			client1.addCard(card1);
 			client1.addCard(card2);
@@ -137,10 +137,6 @@ public class HomebankingApplication {
 			cardRepository.save(card1);
 			cardRepository.save(card2);
 			cardRepository.save(card3);
-
-
-
-
 
 		};
 	}

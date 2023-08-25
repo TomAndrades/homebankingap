@@ -54,7 +54,7 @@ public class AccountController {
         if (client.getAccounts().size() == 3){
             return new ResponseEntity<>("You already have 3 accounts",HttpStatus.FORBIDDEN);
         }
-            Account account = generateAccount();
+            Account account = new Account( generateAccountNumber(), LocalDateTime.now(), 0.0);
             client.addAccount(account);
             accountRepository.save(account);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -68,14 +68,15 @@ public class AccountController {
         if (client.getAccounts().size() == 3){
             return new ResponseEntity<>("You already have 3 accounts",HttpStatus.FORBIDDEN);
         }
-            Account account = generateAccount();
+            Account account = new Account( generateAccountNumber(), LocalDateTime.now(), 0.0);
+
             client.addAccount(account);
             accountRepository.save(account);
             return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 
-    public Account generateAccount() {
+    public String generateAccountNumber() {
         int min = 0;
         int max = 9999999;
         Random random = new Random();
@@ -83,7 +84,7 @@ public class AccountController {
         do {
             accountNumber = "VIN-" + random.nextInt(max - min) + min;
         } while (null != accountRepository.findByNumber(accountNumber));
-        return new Account(accountNumber, LocalDateTime.now(), 0.0);
+        return accountNumber;
 
     }
 }

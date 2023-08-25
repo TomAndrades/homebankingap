@@ -23,9 +23,9 @@ public class Card {
     private String number;
     private LocalDateTime fromDate;
     private LocalDateTime thruDate;
-    private Short cvv;
+    private String cvv;
 
-    public Card(CardType type, CardColor color, String number, LocalDateTime fromDate, Short cvv) {
+    public Card(CardType type, CardColor color, String number, LocalDateTime fromDate, String cvv) {
         this.type = type;
         this.color = color;
         this.number = number;
@@ -68,7 +68,7 @@ public class Card {
         return thruDate;
     }
 
-    public Short getCvv() {
+    public String getCvv() {
         return cvv;
     }
 
@@ -98,7 +98,9 @@ public class Card {
         this.thruDate = thruDate;
     }
 
-    public void setCvv(Short cvv) {
+    public void setCvv(String cvv) {
         this.cvv = cvv;
     }
+
+
 }

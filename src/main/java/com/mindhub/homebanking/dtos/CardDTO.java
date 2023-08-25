@@ -12,7 +12,7 @@ public class CardDTO {
     private CardType type;
     private CardColor color;
     private String number;
-    private Short cvv;
+    private String cvv;
     private LocalDateTime fromDate;
     private LocalDateTime thruDate;
 
@@ -47,7 +47,7 @@ public class CardDTO {
         return number;
     }
 
-    public Short getCvv() {
+    public String getCvv() {
         return cvv;
     }
 
