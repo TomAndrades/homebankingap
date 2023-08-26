@@ -104,7 +104,13 @@ public class Client {
         cards.add(card);
     }
 
+    public List<Card> getDebitCards(){
+        return this.cards.stream().filter(card -> card.getType() == CardType.DEBIT).collect(Collectors.toList());
+    }
 
+    public List<Card> getCreditCards(){
+        return this.cards.stream().filter(card -> card.getType() == CardType.CREDIT).collect(Collectors.toList());
+    }
     @Override
     public String toString() {
         return "Client{" +

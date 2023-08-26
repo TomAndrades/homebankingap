@@ -52,7 +52,7 @@ public class AccountController {
         if (authentication != null){
         Client client = clientRepository.findByEmail(authentication.getName());
         if (client.getAccounts().size() == 3){
-            return new ResponseEntity<>("You already have 3 accounts",HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("You have the maximum number of accounts available",HttpStatus.FORBIDDEN);
         }
             Account account = new Account( generateAccountNumber(), LocalDateTime.now(), 0.0);
             client.addAccount(account);

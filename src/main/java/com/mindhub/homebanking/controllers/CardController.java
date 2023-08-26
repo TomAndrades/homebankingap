@@ -51,6 +51,22 @@ public class CardController {
 
             Client client = clientRepository.findByEmail(authentication.getName());
 
+            switch (cardType) {
+                case DEBIT:
+                    if (client.getDebitCards().size() < 3) {
+                        break;
+                    } else {
+                        return new ResponseEntity<>(
+                                "You have the maximum number of debit cards available", HttpStatus.FORBIDDEN);
+                    }
+                case CREDIT:
+                    if (client.getCreditCards().size() < 3) {
+                        break;
+                    } else {
+                        return new ResponseEntity<>(
+                                "You have the maximum number of credit cards available", HttpStatus.FORBIDDEN);
+                    }
+            }
 
             Random random = new Random();
             StringBuilder cvv = new StringBuilder();
@@ -61,7 +77,7 @@ public class CardController {
             client.addCard(card);
             cardRepository.save(card);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        } else {
+            } else {
             return new ResponseEntity<>("You must to be logged to create a card", HttpStatus.FORBIDDEN);
         }
 
