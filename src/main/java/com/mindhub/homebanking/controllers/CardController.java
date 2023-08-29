@@ -42,7 +42,10 @@ public class CardController {
 
     @RequestMapping("/clients/current/cards")
     public List<CardDTO> getCurrentCards(Authentication authentication){
-        return clientRepository.findByEmail(authentication.getName()).getCards().stream().map(CardDTO::new).collect(toList());
+        return clientRepository.findByEmail(authentication.getName())
+                .getCards().stream()
+                .map(CardDTO::new)
+                .collect(toList());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/clients/current/cards")
