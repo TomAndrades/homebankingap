@@ -6,8 +6,8 @@ import com.mindhub.homebanking.models.CardColor;
 import com.mindhub.homebanking.models.CardType;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.CardRepository;
+import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.services.CardService;
-import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ public class CardServiceImplement implements CardService {
     @Autowired
     private CardRepository cardRepository;
     @Autowired
-    private ClientService clientService;
+    private ClientRepository clientRepository;
     @Override
     public List<CardDTO> getCardsDTO() {
         return getCards().stream().map(CardDTO::new).collect(toList());
@@ -51,40 +51,20 @@ public class CardServiceImplement implements CardService {
     }
 
     @Override
-    public List<CardDTO> getCurrentCardsDTO(Authentication authentication){
-        return getCurrentCards(authentication).stream().map(CardDTO::new).collect(toList());
+    public List<CardDTO> getCurrentCardsDTO(String clientEmail){
+        return getCurrentCards(clientEmail).stream().map(CardDTO::new).collect(toList());
     }
     @Override
-    public Set<Card> getCurrentCards(Authentication authentication) {
-        return clientService.getCurrentClient(authentication).getCards();
+    public Set<Card> getCurrentCards(String clientEmail) {
+        return clientRepository.findByEmail(clientEmail).getCards();
     }
 
-    public ResponseEntity<Object> createCard(CardType cardType, CardColor cardColor, Authentication authentication){
-        if (authentication != null) {
-            Client client = clientService.getCurrentClient(authentication);
-            switch (cardType) {
-                case DEBIT:
-                    if (client.getDebitCards().size() < 3) {
-                        break;
-                    } else {
-                        return new ResponseEntity<>(
-                                "You have the maximum number of debit cards available", HttpStatus.FORBIDDEN);
-                    }
-                case CREDIT:
-                    if (client.getCreditCards().size() < 3) {
-                        break;
-                    } else {
-                        return new ResponseEntity<>(
-                                "You have the maximum number of credit cards available", HttpStatus.FORBIDDEN);
-                    }
-            }
+    public Card createCard(CardType cardType, CardColor cardColor, Client client){
             Card card = new Card(cardType, cardColor, generateCardNumber(), LocalDateTime.now(), generateCvv());
             client.addCard(card);
             saveCard(card);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>("You must to be logged to create a card", HttpStatus.FORBIDDEN);
-        }
+            return card;
+
     }
 
     public String generateCvv(){

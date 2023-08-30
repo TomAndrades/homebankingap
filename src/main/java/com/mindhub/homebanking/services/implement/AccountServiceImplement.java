@@ -26,13 +26,14 @@ public class AccountServiceImplement implements AccountService {
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
-    @Lazy
-    private ClientService clientService;
+    private ClientRepository clientRepository;
+
 
     @Override
-    public void saveAccount(Account account){
+    public void saveAccount(Account account) {
         accountRepository.save(account);
     }
+
     @Override
     public List<AccountDTO> getAccountsDTO() {
         return getAccounts().stream().map(AccountDTO::new).collect(toList());
@@ -54,34 +55,22 @@ public class AccountServiceImplement implements AccountService {
     }
 
     @Override
-    public List<AccountDTO> getCurrentAccountsDTO(Authentication authentication) {
-        return getCurrentAccounts(authentication).stream().map(AccountDTO::new).collect(toList());
+    public List<AccountDTO> getCurrentAccountsDTO(String clientEmail) {
+        return getCurrentAccounts(clientEmail).stream().map(AccountDTO::new).collect(toList());
     }
 
-    @Override
-    public Set<Account> getCurrentAccounts(Authentication authentication) {
-        return clientService.getCurrentClient(authentication).getAccounts();
+
+    public Set<Account> getCurrentAccounts (String clientEmail){
+        return clientRepository.findByEmail(clientEmail).getAccounts();
     }
 
-    @Override
-    public ResponseEntity<Object> createCurrentAccount(Authentication authentication) {
-        if (authentication != null){
-            Client client = clientService.getCurrentClient(authentication);
-            return createAccount(client);
-        } else {
-            return new ResponseEntity<>("You must need to be logged before create an account",HttpStatus.FORBIDDEN);
-        }
-    }
 
     @Override
-    public ResponseEntity<Object> createAccount(Client client){
-        if (client.getAccounts().size() == 3){
-            return new ResponseEntity<>("You already have 3 accounts",HttpStatus.FORBIDDEN);
-        }
-        Account account = new Account( generateAccountNumber(), LocalDateTime.now(), 0.0);
+    public Account createAccount(Client client) {
+        Account account = new Account(generateAccountNumber(), LocalDateTime.now(), 0.0);
         client.addAccount(account);
         saveAccount(account);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return account;
     }
 
     @Override
@@ -96,4 +85,7 @@ public class AccountServiceImplement implements AccountService {
         return accountNumber;
 
     }
+
+
 }
+

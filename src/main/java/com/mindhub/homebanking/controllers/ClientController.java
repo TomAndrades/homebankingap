@@ -3,6 +3,7 @@ package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.dtos.ClientDTO;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,8 @@ import static java.util.stream.Collectors.toList;
 public class ClientController {
     @Autowired
     ClientService clientService;
+    @Autowired
+    AccountService accountService;
     @GetMapping("/clients")
     public List<ClientDTO> getClients(){ return clientService.getClientsDTO(); }
 
@@ -30,12 +33,20 @@ public class ClientController {
 
     //Method to create a client validating that the email is not in the db
     @RequestMapping(path = "/clients", method = RequestMethod.POST)
-    public ResponseEntity<Object> register(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String email, @RequestParam String password){
-        return clientService.register(firstName, lastName, email, password);
+    public ResponseEntity<Object> registerClient(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String email, @RequestParam String password){
+        if(firstName.isBlank() || lastName.isBlank() || email.isBlank() || password.isBlank()){
+            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+        } else if (clientService.clientExist(email)) {
+            return new ResponseEntity<>("Email already in use", HttpStatus.FORBIDDEN);
+        } else {
+            Client client = clientService.register(firstName, lastName, email, password);
+            accountService.createAccount(client);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
     }
 
     @RequestMapping("/clients/current")
     public ClientDTO getCurrentClient(Authentication authentication){
-        return clientService.getCurrentClientDTO(authentication);}
+        return clientService.getCurrentClientDTO(authentication.getName());}
 
 }

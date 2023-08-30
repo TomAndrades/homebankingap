@@ -4,6 +4,7 @@ import com.mindhub.homebanking.dtos.CardDTO;
 import com.mindhub.homebanking.models.Card;
 import com.mindhub.homebanking.models.CardColor;
 import com.mindhub.homebanking.models.CardType;
+import com.mindhub.homebanking.models.Client;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,9 +19,10 @@ public interface CardService {
     List<Card> getCards();
     CardDTO getCardDTO(Long id);
     Optional<Card> getCard(Long id);
-    List<CardDTO> getCurrentCardsDTO(Authentication authentication);
-    Set<Card> getCurrentCards(Authentication authentication);
-    ResponseEntity<Object> createCard(CardType cardType, CardColor cardColor, Authentication authentication);
+    List<CardDTO> getCurrentCardsDTO(String clientEmail);
+    Set<Card> getCurrentCards(String clientEmail);
+
+    Card createCard(CardType cardType, CardColor cardColor, Client client);
     String generateCvv();
     String generateCardNumber();
 }

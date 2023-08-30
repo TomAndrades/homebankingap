@@ -13,9 +13,12 @@ public interface ClientService {
     List<ClientDTO> getClientsDTO();
     List<Client> getClients();
     ClientDTO getClientDTO(Long id);
+
     Optional<Client> getClient(Long id);
-    ResponseEntity<Object> register(String firstName, String lastName,String email, String password);
-    ClientDTO getCurrentClientDTO(Authentication authentication);
-    Client getCurrentClient(Authentication authentication);
+
+    boolean clientExist(String clientEmail);
+    Client register(String firstName, String lastName, String email, String password);
+    Client getCurrentClient(String clientEmail);
+    ClientDTO getCurrentClientDTO(String clientEmail);
 
 }

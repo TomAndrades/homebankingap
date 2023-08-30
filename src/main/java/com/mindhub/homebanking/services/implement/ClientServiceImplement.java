@@ -9,7 +9,6 @@ import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +18,12 @@ import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 @Service
 public class ClientServiceImplement implements ClientService {
+
+    //TU SERVICE NUNCA TIENE QUE DEVOLVER UN RESPONSE ENTITY
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private ClientRepository clientRepository;
-
     @Autowired
     private AccountService accountService;
 
@@ -49,30 +49,24 @@ public class ClientServiceImplement implements ClientService {
     public Optional<Client> getClient(Long id) {
         return clientRepository.findById(id);
     }
-
     @Override
-    public ResponseEntity<Object> register(String firstName, String lastName, String email, String password) {
-        if(firstName.isBlank() || lastName.isBlank() || email.isBlank() || password.isBlank()){
-            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
-        }
-
-        if(clientRepository.findByEmail(email) != null){
-            return new ResponseEntity<>("Email already in use", HttpStatus.FORBIDDEN);
-        }
+    public boolean clientExist(String clientEmail){
+        return getCurrentClient(clientEmail) != null;
+    }
+    @Override
+    public Client register(String firstName, String lastName, String email, String password) {
         Client client = new Client(firstName, lastName, email, passwordEncoder.encode(password));
-
         saveClient(client);
-        accountService.createAccount(client);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return client;
     }
 
     @Override
-    public ClientDTO getCurrentClientDTO(Authentication authentication) {
-        return new ClientDTO(getCurrentClient(authentication));
+    public ClientDTO getCurrentClientDTO(String clientEmail) {
+        return new ClientDTO(getCurrentClient(clientEmail));
     }
 
     @Override
-    public Client getCurrentClient(Authentication authentication) {
-        return clientRepository.findByEmail(authentication.getName());
+    public Client getCurrentClient(String clientEmail) {
+        return clientRepository.findByEmail(clientEmail);
     }
 }

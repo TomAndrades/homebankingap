@@ -5,6 +5,7 @@ import com.mindhub.homebanking.models.Transaction;
 import com.mindhub.homebanking.repositories.TransactionRepository;
 import com.mindhub.homebanking.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,4 +24,5 @@ public class TransactionServiceImplement implements TransactionService {
     public List<Transaction> getTransactions(){
         return transactionRepository.findAll();
     }
+
 }
