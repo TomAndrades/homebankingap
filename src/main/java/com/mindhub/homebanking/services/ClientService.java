@@ -18,7 +18,7 @@ public interface ClientService {
 
     boolean clientExist(String clientEmail);
     Client register(String firstName, String lastName, String email, String password);
-    Client getCurrentClient(String clientEmail);
-    ClientDTO getCurrentClientDTO(String clientEmail);
+    Client getClientByEmail(String clientEmail);
+    ClientDTO getClientDTOByEmail(String clientEmail);
 
 }

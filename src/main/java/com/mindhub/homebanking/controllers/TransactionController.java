@@ -46,7 +46,7 @@ public class TransactionController {
         else if(accountService.getAccountByNumber(toAccountNumber) == null){
             return new ResponseEntity<>("The destiny account doesn't exists",HttpStatus.FORBIDDEN);
         }
-        else if(accountService.getAccountByNumber(fromAccountNumber).getClient() != clientService.getCurrentClient(authentication.getName())){
+        else if(accountService.getAccountByNumber(fromAccountNumber).getClient() != clientService.getClientByEmail(authentication.getName())){
             return new ResponseEntity<>("You are not the owner of the origin account selected",HttpStatus.FORBIDDEN);
         }
         else if(accountService.getAccountByNumber(fromAccountNumber).getBalance() < amount){

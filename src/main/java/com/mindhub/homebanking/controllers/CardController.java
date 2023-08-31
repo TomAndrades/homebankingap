@@ -35,8 +35,8 @@ public class CardController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/clients/current/cards")
     public ResponseEntity<Object> createCard(@RequestParam CardType cardType, @RequestParam CardColor cardColor, Authentication authentication) {
-        if (authentication != null) {
-            Client client = clientService.getCurrentClient(authentication.getName());
+        if (clientService.clientExist(authentication.getName())) {
+            Client client = clientService.getClientByEmail(authentication.getName());
             switch (cardType) {
                 case DEBIT:
                     if (client.getDebitCards().size() < 3) {

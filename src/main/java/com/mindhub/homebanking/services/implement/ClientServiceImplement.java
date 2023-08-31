@@ -51,7 +51,7 @@ public class ClientServiceImplement implements ClientService {
     }
     @Override
     public boolean clientExist(String clientEmail){
-        return getCurrentClient(clientEmail) != null;
+        return clientRepository.existsByEmail(clientEmail);
     }
     @Override
     public Client register(String firstName, String lastName, String email, String password) {
@@ -61,12 +61,12 @@ public class ClientServiceImplement implements ClientService {
     }
 
     @Override
-    public ClientDTO getCurrentClientDTO(String clientEmail) {
-        return new ClientDTO(getCurrentClient(clientEmail));
+    public ClientDTO getClientDTOByEmail(String clientEmail) {
+        return new ClientDTO(getClientByEmail(clientEmail));
     }
 
     @Override
-    public Client getCurrentClient(String clientEmail) {
+    public Client getClientByEmail(String clientEmail) {
         return clientRepository.findByEmail(clientEmail);
     }
 }

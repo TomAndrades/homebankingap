@@ -34,7 +34,7 @@ public class HomebankingApplication {
 			//Crear el cliente
 			Client client1 = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("1234"));
 			Client client2 = new Client("Morgan", "Freeman", "mfreeman@mindhub.com", passwordEncoder.encode("mfree"));
-			Client admin = new Client("admin", "admin", "admin@mindhub.com", passwordEncoder.encode("admin"));
+			Client admin = new Client("admin", "admin", "admin@adminmh.com", passwordEncoder.encode("admin"));
 			clientRepository.save(client1);
 			clientRepository.save(client2);
 			clientRepository.save(admin);

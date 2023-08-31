@@ -90,7 +90,7 @@ public class CardServiceImplement implements CardService {
             for (int k = 0; k < 4; k++) {
                 cardNumber.append(random.nextInt(9));
             }
-        } while (cardRepository.findByNumber(cardNumber.toString()) != null);
+        } while (cardRepository.existsByNumber(cardNumber.toString()));
         return cardNumber.toString();
 /*            int i = 0;
             while (cardNumber.length() < 19) {

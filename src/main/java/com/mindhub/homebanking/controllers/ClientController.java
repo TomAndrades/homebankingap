@@ -25,7 +25,7 @@ public class ClientController {
     ClientService clientService;
     @Autowired
     AccountService accountService;
-    @GetMapping("/clients")
+    @RequestMapping("/clients")
     public List<ClientDTO> getClients(){ return clientService.getClientsDTO(); }
 
     @RequestMapping("/clients/{id}")
@@ -34,8 +34,12 @@ public class ClientController {
     //Method to create a client validating that the email is not in the db
     @RequestMapping(path = "/clients", method = RequestMethod.POST)
     public ResponseEntity<Object> registerClient(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String email, @RequestParam String password){
-        if(firstName.isBlank() || lastName.isBlank() || email.isBlank() || password.isBlank()){
-            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+        if(firstName.isBlank() || lastName.isBlank() ){
+            return new ResponseEntity<>("You need to enter a first name and last name", HttpStatus.FORBIDDEN);
+        } else if (email.isBlank()) {
+            return new ResponseEntity<>("You need to enter a valid email", HttpStatus.FORBIDDEN);
+        } else if (password.isBlank()) {
+            return new ResponseEntity<>("You need to enter a password", HttpStatus.FORBIDDEN);
         } else if (clientService.clientExist(email)) {
             return new ResponseEntity<>("Email already in use", HttpStatus.FORBIDDEN);
         } else {
@@ -47,6 +51,6 @@ public class ClientController {
 
     @RequestMapping("/clients/current")
     public ClientDTO getCurrentClient(Authentication authentication){
-        return clientService.getCurrentClientDTO(authentication.getName());}
+        return clientService.getClientDTOByEmail(authentication.getName());}
 
 }

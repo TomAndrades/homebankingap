@@ -10,5 +10,6 @@ import java.util.Set;
 @RepositoryRestResource
 public interface ClientRepository extends JpaRepository<Client, Long> {
     Client findByEmail(String email);
+    boolean existsByEmail(String email);
 
 }
