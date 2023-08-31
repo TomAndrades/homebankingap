@@ -2,7 +2,6 @@ package com.mindhub.homebanking.controllers;
 
 import com.mindhub.homebanking.dtos.TransactionDTO;
 import com.mindhub.homebanking.models.Account;
-import com.mindhub.homebanking.models.TransactionType;
 import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.ClientService;
 import com.mindhub.homebanking.services.TransactionService;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -34,10 +32,10 @@ public class TransactionController {
     }
 
     @RequestMapping(value = "/transactions", method = RequestMethod.POST)
-    public ResponseEntity<Object> createTransaction(@RequestParam Double amount, @RequestParam String description,
+    public ResponseEntity<Object> createTransaction(@RequestParam(defaultValue = "0") Double amount, @RequestParam String description,
                                                     @RequestParam String fromAccountNumber, @RequestParam String toAccountNumber,
                                                     Authentication authentication){
-        if(amount <= 0.00|| amount.isNaN() || description.isBlank()){
+        if(amount <= 0.0 || description.isBlank()){
             return new ResponseEntity<>("You must set an amount and add a description",HttpStatus.FORBIDDEN);
         }else if( fromAccountNumber.isBlank() || toAccountNumber.isBlank()){
             return new ResponseEntity<>("You must set an origin and a destiny account",HttpStatus.FORBIDDEN);
