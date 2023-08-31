@@ -5,6 +5,7 @@ import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface AccountService {
     void saveAccount(Account account);
@@ -12,7 +13,11 @@ public interface AccountService {
     List<Account> getAccounts();
     AccountDTO getAccountDTO(Long id);
     Optional<Account> getAccount(Long id);
+    Account getAccountByNumber(String number);
     List<AccountDTO> getCurrentAccountsDTO(String clientEmail);
+
+    Set<Account> getCurrentAccounts(String clientEmail);
+
     Account createAccount(Client client);
     String generateAccountNumber();
 
