@@ -37,29 +37,27 @@ public class CardController {
     public ResponseEntity<Object> createCard(@RequestParam CardType cardType, @RequestParam CardColor cardColor, Authentication authentication) {
         if (clientService.clientExist(authentication.getName())) {
             Client client = clientService.getClientByEmail(authentication.getName());
-            switch (cardType) {
-                case DEBIT:
-                    if (client.getDebitCards().size() < 3) {
-                        break;
-                    } else {
-                        return new ResponseEntity<>(
-                                "You have the maximum number of debit cards available", HttpStatus.FORBIDDEN);
-                    }
-                case CREDIT:
-                    if (client.getCreditCards().size() < 3) {
-                        break;
-                    } else {
-                        return new ResponseEntity<>(
-                                "You have the maximum number of credit cards available", HttpStatus.FORBIDDEN);
-                    }
+            if (cardType == CardType.DEBIT) {
+                if (client.getDebitCards().size() >= 3) {
+                    return new ResponseEntity<>(
+                            "You have the maximum number of debit cards available", HttpStatus.FORBIDDEN);
+                }
+            } else if (cardType == CardType.CREDIT) {
+                if (client.getCreditCards().size() >= 3) {
+                    return new ResponseEntity<>(
+                            "You have the maximum number of credit cards available", HttpStatus.FORBIDDEN);
+                }
+            } else if (cardType == null) {
+                return new ResponseEntity<>(
+                        "You must enter the type of card that you want (DEBIT or CREDIT)", HttpStatus.FORBIDDEN);
+            } else if (cardColor == null) {
+                return new ResponseEntity<>("You must enter a Card Color you want (SILVER, GOLD or TITANIUM)", HttpStatus.FORBIDDEN);
             }
-            cardService.createCard(cardType, cardColor, client);
             return new ResponseEntity<>(HttpStatus.CREATED);
+
         } else {
             return new ResponseEntity<>("You must to be logged to create a card", HttpStatus.FORBIDDEN);
         }
-
-
     }
 
 }
