@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -31,6 +32,7 @@ public class TransactionController {
         return transactionService.getTransactionsDTO();
     }
 
+    @Transactional
     @RequestMapping(value = "/transactions", method = RequestMethod.POST)
     public ResponseEntity<Object> createTransaction(@RequestParam(defaultValue = "0") Double amount, @RequestParam String description,
                                                     @RequestParam String fromAccountNumber, @RequestParam String toAccountNumber,
