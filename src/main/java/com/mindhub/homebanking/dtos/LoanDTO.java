@@ -28,9 +28,7 @@ public class LoanDTO {
         return name;
     }
 
-    public Double getMaxAmount() {
-        return maxAmount;
-    }
+    public Double getMaxAmount() { return maxAmount; }
 
     public List<Integer> getPayments() {
         return payments;

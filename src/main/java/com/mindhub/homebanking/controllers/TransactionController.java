@@ -42,10 +42,10 @@ public class TransactionController {
         }else if( fromAccountNumber.isBlank() || toAccountNumber.isBlank()){
             return new ResponseEntity<>("You must set an origin and a destiny account",HttpStatus.FORBIDDEN);
         }
-        else if(accountService.getAccountByNumber(fromAccountNumber) == null){
+        else if(!accountService.existsAccountByNumber(fromAccountNumber)){
             return new ResponseEntity<>("The origin account doesn't exists",HttpStatus.FORBIDDEN);
         }
-        else if(accountService.getAccountByNumber(toAccountNumber) == null){
+        else if(!accountService.existsAccountByNumber(toAccountNumber)){
             return new ResponseEntity<>("The destiny account doesn't exists",HttpStatus.FORBIDDEN);
         }
         else if(accountService.getAccountByNumber(fromAccountNumber).getClient() != clientService.getClientByEmail(authentication.getName())){

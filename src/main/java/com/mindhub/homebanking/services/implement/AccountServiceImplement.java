@@ -58,6 +58,10 @@ public class AccountServiceImplement implements AccountService {
     public Set<Account> getCurrentAccounts(String clientEmail){
         return clientRepository.findByEmail(clientEmail).getAccounts();
     }
+    @Override
+    public boolean existsAccountByNumber(String number){
+        return accountRepository.existsByNumber(number);
+    }
 
     @Override
     public Account getAccountByNumber(String number){

@@ -13,6 +13,9 @@ public interface AccountService {
     List<Account> getAccounts();
     AccountDTO getAccountDTO(Long id);
     Optional<Account> getAccount(Long id);
+
+    boolean existsAccountByNumber(String number);
+
     Account getAccountByNumber(String number);
     List<AccountDTO> getCurrentAccountsDTO(String clientEmail);
 
