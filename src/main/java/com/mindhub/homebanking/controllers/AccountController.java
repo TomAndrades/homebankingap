@@ -38,7 +38,10 @@ public class AccountController {
 
     @RequestMapping(value = "/clients/current/accounts", method = RequestMethod.POST)
     public ResponseEntity<Object> createCurrentAccount(Authentication authentication){
-        if (clientService.clientExist(authentication.getName())){
+        if(authentication == null) {
+            return new ResponseEntity<>("You need to be logged before of create a transaction", HttpStatus.FORBIDDEN);
+        }
+        else if (clientService.clientExist(authentication.getName())){
             Client client = clientService.getClientByEmail(authentication.getName());
             if (client.getAccounts().size() >= 3){
                 return new ResponseEntity<>("You already have 3 accounts",HttpStatus.FORBIDDEN);

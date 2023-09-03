@@ -37,9 +37,13 @@ public class TransactionController {
     public ResponseEntity<Object> createTransaction(@RequestParam(defaultValue = "0") Double amount, @RequestParam String description,
                                                     @RequestParam String fromAccountNumber, @RequestParam String toAccountNumber,
                                                     Authentication authentication){
-        if(amount <= 0.0 || description.isBlank()){
+        if (authentication == null){
+            return new ResponseEntity<>("You need to be logged before of create a transaction",HttpStatus.FORBIDDEN);
+        }
+        else if(amount <= 0.0 || description.isBlank()){
             return new ResponseEntity<>("You must set an amount and add a description",HttpStatus.FORBIDDEN);
-        }else if( fromAccountNumber.isBlank() || toAccountNumber.isBlank()){
+        }
+        else if( fromAccountNumber.isBlank() || toAccountNumber.isBlank()){
             return new ResponseEntity<>("You must set an origin and a destiny account",HttpStatus.FORBIDDEN);
         }
         else if(!accountService.existsAccountByNumber(fromAccountNumber)){

@@ -6,11 +6,11 @@ public class LoanApplicationDTO {
     private Integer payments;
     private String accountNumber;
 
-    public LoanApplicationDTO(Long loanId, Double amount, Integer payments, String accountNumber) {
+    public LoanApplicationDTO(Long loanId, Double amount, Integer payments, String toAccountNumber) {
         this.loanId = loanId;
         this.amount = amount;
         this.payments = payments;
-        this.accountNumber = accountNumber;
+        this.accountNumber = toAccountNumber;
     }
 
     public Long getLoanId() {

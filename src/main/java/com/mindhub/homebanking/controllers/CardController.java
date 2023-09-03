@@ -35,7 +35,10 @@ public class CardController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/clients/current/cards")
     public ResponseEntity<Object> createCard(@RequestParam CardType cardType, @RequestParam CardColor cardColor, Authentication authentication) {
-        if (clientService.clientExist(authentication.getName())) {
+        if(authentication == null){
+            return new ResponseEntity<>("You need to be logged before of create a transaction",HttpStatus.FORBIDDEN);
+        }
+        else if (clientService.clientExist(authentication.getName())) {
             Client client = clientService.getClientByEmail(authentication.getName());
             if (cardType == CardType.DEBIT) {
                 if (client.getDebitCards().size() >= 3) {
