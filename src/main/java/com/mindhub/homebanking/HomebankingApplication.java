@@ -20,12 +20,12 @@ import java.util.stream.IntStream;
 
 @SpringBootApplication
 public class HomebankingApplication {
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+//	@Autowired
+//	private PasswordEncoder passwordEncoder;
 	public static void main(String[] args) {
 		SpringApplication.run(HomebankingApplication.class, args);
 	}
-
+/*
 	@Bean
 	public CommandLineRunner init(ClientRepository clientRepository, AccountRepository accountRepository,
 								  TransactionRepository transactionRepository, LoanRepository loanRepository,
@@ -139,6 +139,6 @@ public class HomebankingApplication {
 			cardRepository.save(card3);
 
 		};
-	}
+	}*/
 
 }
