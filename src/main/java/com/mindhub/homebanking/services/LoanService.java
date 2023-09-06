@@ -20,5 +20,5 @@ public interface LoanService {
 
     List<LoanDTO> getLoansDTO();
 
-    void createLoan(LoanApplicationDTO loanApplication, Client client);
+
 }

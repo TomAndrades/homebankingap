@@ -43,8 +43,8 @@ Vue.createApp({
                 this.errorMsg = "You must indicate an account";
                 this.errorToats.show();
             }
-            else if (this.amount == 0) {
-                this.errorMsg = "You must indicate an amount";
+            else if (this.amount <= 0) {
+                this.errorMsg = "You must indicate an possitive valid amount";
                 this.errorToats.show();
             } else {
                 this.modal.show();
@@ -57,6 +57,7 @@ Vue.createApp({
                     this.okmodal.show();
                 })
                 .catch((error) => {
+                    this.modal.hide();
                     this.errorMsg = error.response.data;
                     this.errorToats.show();
                 })
@@ -68,13 +69,26 @@ Vue.createApp({
             window.location.reload();
         },
         checkFees: function () {
-            this.fees = [];
-            this.totalLoan = parseInt(this.amount) + (this.amount * 0.2);
-            let amount = this.totalLoan / this.payments;
-            for (let i = 1; i <= this.payments; i++) {
-                this.fees.push({ amount: amount });
+            try {
+                if (this.amount.length == 0 || this.amount <= 0) {
+                    throw new Error("You need enter an possitive amount before see fees");
+                };
+                this.fees = [];
+                this.totalLoan = parseInt(this.amount) + (this.amount * 0.2);
+                let amount = this.totalLoan / this.payments;
+                for (let i = 1; i <= this.payments; i++) {
+                    this.fees.push({ amount: amount });
+                }
+                this.feesmodal.show();
+                // Add functions that may fail here
+                // If an error occurs, it will be caught:
+            } catch (err) {
+                // Handle the error here
+                this.errorMsg = err;
+                this.errorToats.show();
+                console.error("Error:", err);
             }
-            this.feesmodal.show();
+
         },
         signOut: function () {
             axios.post('/api/logout')

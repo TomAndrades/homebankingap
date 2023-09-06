@@ -19,12 +19,6 @@ public class LoanServiceImplement implements LoanService {
 
     @Autowired
     private LoanRepository loanRepository;
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private TransactionRepository transactionRepository;
-    @Autowired
-    private ClientLoanRepository clientLoanRepository;
 
     @Override
     public void saveLoan(Loan loan) {
@@ -47,17 +41,6 @@ public class LoanServiceImplement implements LoanService {
         return loanRepository.findAll().stream().map(loan -> new LoanDTO(loan)).collect(Collectors.toList());
     }
 
-    @Override
-    public void createLoan(LoanApplicationDTO loanApplication, Client client) {
-        ClientLoan clientLoan = new ClientLoan(loanApplication.getAmount(),loanApplication.getPayments());
-        clientLoan.setLoan(getLoanById(loanApplication.getLoanId()));
-        clientLoan.setClient(client);
-        Transaction transaction = new Transaction(TransactionType.CREDIT,loanApplication.getAmount(),
-                getLoanById(loanApplication.getLoanId()).getName() + " Loan Aprroved");
-        Account destinyAccount = accountRepository.findByNumber(loanApplication.getAccountNumber());
-        destinyAccount.addTransaction(transaction);
-        clientLoanRepository.save(clientLoan);
-        transactionRepository.save(transaction);
-    }
+
 
 }

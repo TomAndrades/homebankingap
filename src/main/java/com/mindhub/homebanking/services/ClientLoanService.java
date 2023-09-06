@@ -1,6 +1,7 @@
 package com.mindhub.homebanking.services;
 
 import com.mindhub.homebanking.dtos.ClientLoanDTO;
+import com.mindhub.homebanking.dtos.LoanApplicationDTO;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.ClientLoan;
 
@@ -18,4 +19,5 @@ public interface ClientLoanService {
     List<ClientLoanDTO> getClientLoansDTOByClient(Client client);
 
     List<ClientLoanDTO> toDTO(List<ClientLoan> list);
+    void createClientLoan(LoanApplicationDTO loanApplication, Client client);
 }
