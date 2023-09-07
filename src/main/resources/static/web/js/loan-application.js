@@ -74,8 +74,8 @@ Vue.createApp({
                     throw new Error("You need enter an possitive amount before see fees");
                 };
                 this.fees = [];
-                this.totalLoan = parseInt(this.amount) + (this.amount * 0.2);
-                let amount = this.totalLoan / this.payments;
+                this.totalLoan = (parseInt(this.amount) + (this.amount * 0.2)).toFixed(2);
+                let amount = (this.totalLoan / this.payments).toFixed(2);
                 for (let i = 1; i <= this.payments; i++) {
                     this.fees.push({ amount: amount });
                 }

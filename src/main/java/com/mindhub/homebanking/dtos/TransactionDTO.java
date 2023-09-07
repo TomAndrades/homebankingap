@@ -27,7 +27,7 @@ public class TransactionDTO {
     public TransactionDTO(Transaction transaction) {
         id = transaction.getId();
         type = transaction.getType();
-        amount = transaction.getAmount();
+        amount = (double) Math.round(transaction.getAmount() * 100)/100;
         description = transaction.getDescription();
         date = transaction.getDate();
     }

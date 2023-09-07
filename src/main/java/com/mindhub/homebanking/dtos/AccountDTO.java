@@ -18,7 +18,7 @@ public class AccountDTO {
         id = account.getId();
         number = account.getNumber();
         date = account.getCreationDate();
-        balance = account.getBalance();
+        balance = (double) Math.round(account.getBalance() * 100)/100;
         transactions = account.getTransactions().stream().map(TransactionDTO::new).collect(toSet());
     }
 
