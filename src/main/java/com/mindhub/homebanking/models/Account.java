@@ -69,7 +69,12 @@ public class Account {
 
     public void addTransaction(Transaction transaction){
         this.transactions.add(transaction);
-        this.balance += transaction.getAmount();
         transaction.setAccount(this);
+    }
+    public void addBalance(Double amount){
+        this.balance += amount;
+    }
+    public void subtractBalance(Double amount){
+        this.balance -= amount;
     }
 }

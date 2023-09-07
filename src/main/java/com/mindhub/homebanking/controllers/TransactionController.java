@@ -40,11 +40,17 @@ public class TransactionController {
         if (authentication == null){
             return new ResponseEntity<>("You need to be logged before of create a transaction",HttpStatus.FORBIDDEN);
         }
-        else if(amount <= 0.0 || description.isBlank()){
-            return new ResponseEntity<>("You must set an amount and add a description",HttpStatus.FORBIDDEN);
+        else if(amount <= 0.0) {
+            return new ResponseEntity<>("You must set an positive amount",HttpStatus.FORBIDDEN);
         }
-        else if( fromAccountNumber.isBlank() || toAccountNumber.isBlank()){
-            return new ResponseEntity<>("You must set an origin and a destiny account",HttpStatus.FORBIDDEN);
+        else if (description.isBlank()){
+            return new ResponseEntity<>("You must set description",HttpStatus.FORBIDDEN);
+        }
+        else if( fromAccountNumber.isBlank()){
+            return new ResponseEntity<>("You must set an origin account",HttpStatus.FORBIDDEN);
+        }
+        else if(toAccountNumber.isBlank()){
+            return new ResponseEntity<>("You must set an destiny account",HttpStatus.FORBIDDEN);
         }
         else if(!accountService.existsAccountByNumber(fromAccountNumber)){
             return new ResponseEntity<>("The origin account doesn't exists",HttpStatus.FORBIDDEN);
@@ -52,19 +58,23 @@ public class TransactionController {
         else if(!accountService.existsAccountByNumber(toAccountNumber)){
             return new ResponseEntity<>("The destiny account doesn't exists",HttpStatus.FORBIDDEN);
         }
-        else if(accountService.getAccountByNumber(fromAccountNumber).getClient() != clientService.getClientByEmail(authentication.getName())){
-            return new ResponseEntity<>("You are not the owner of the origin account selected",HttpStatus.FORBIDDEN);
-        }
-        else if(accountService.getAccountByNumber(fromAccountNumber).getBalance() < amount){
-            return new ResponseEntity<>("The origin account selected hasn't funds enough",HttpStatus.FORBIDDEN);
-        }
-        else if(accountService.getAccountByNumber(fromAccountNumber) == accountService.getAccountByNumber(toAccountNumber)){
-            return new ResponseEntity<>("The origin and destiny account selected are the same",HttpStatus.FORBIDDEN);
-        } else {
+        else
+        {
             Account originAccount = accountService.getAccountByNumber(fromAccountNumber);
             Account destinyAccount = accountService.getAccountByNumber(toAccountNumber);
-            transactionService.createTransaction(originAccount, destinyAccount, amount, description);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+
+            if(originAccount.getClient() != clientService.getClientByEmail(authentication.getName())){
+                return new ResponseEntity<>("You are not the owner of the origin account selected",HttpStatus.FORBIDDEN);
+            }
+            else if(originAccount.getBalance() < amount){
+                return new ResponseEntity<>("The origin account selected hasn't funds enough",HttpStatus.FORBIDDEN);
+            }
+            else if(originAccount == destinyAccount){
+                return new ResponseEntity<>("The origin and destiny account selected are the same",HttpStatus.FORBIDDEN);
+            } else {
+                transactionService.createTransaction(originAccount, destinyAccount, amount, description);
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            }
         }
 
     }

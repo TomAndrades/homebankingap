@@ -54,19 +54,22 @@ public class ClientLoanServiceImplement implements ClientLoanService {
 
 
     @Override
-    public void createClientLoan(LoanApplicationDTO loanApplication, Client client) {
+    public void createClientLoan(LoanApplicationDTO loanApplication, Loan loan,Client client) {
         Double clientLoanAmount = loanApplication.getAmount()*.2;
         ClientLoan clientLoan = new ClientLoan(clientLoanAmount, loanApplication.getPayments());
-        Loan loan = loanRepository.findLoanById(loanApplication.getLoanId()).orElse(null);
-        clientLoan.setLoan(loan);
-        clientLoan.setClient(client);
-        assert loan != null;
         Transaction transaction = new Transaction(TransactionType.CREDIT,loanApplication.getAmount(),
                 loan.getName() + " Loan Aprroved");
         Account destinyAccount = accountRepository.findByNumber(loanApplication.getAccountNumber());
+
+        clientLoan.setLoan(loan);
+        clientLoan.setClient(client);
+
         destinyAccount.addTransaction(transaction);
+        destinyAccount.addBalance(loanApplication.getAmount());
+
         saveClientLoan(clientLoan);
         transactionRepository.save(transaction);
+        accountRepository.save(destinyAccount);
     }
 
 }

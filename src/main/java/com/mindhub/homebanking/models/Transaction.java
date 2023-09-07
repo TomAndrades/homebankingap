@@ -43,7 +43,6 @@ public class Transaction {
         return type;
     }
 
-
     public Double getAmount() {
         return amount;
     }

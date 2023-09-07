@@ -66,7 +66,7 @@ public class LoanController {
                 } else if (accountService.getAccountByNumber(loanApplication.getAccountNumber()).getClient() != client){
                     return new ResponseEntity<>("You aren't the owner of the account selected", HttpStatus.FORBIDDEN);
                 } else {
-                    clientLoanService.createClientLoan(loanApplication, client);
+                    clientLoanService.createClientLoan(loanApplication, loan, client);
                 }
             }
 
